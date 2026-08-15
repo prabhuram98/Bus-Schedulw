@@ -9,32 +9,26 @@
                    maximum-scale=1.0,
                    user-scalable=no">
 
-    <meta name="theme-color" content="#11142b">
+    <meta name="theme-color" content="#15152b">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="PRABHU Bus">
+    <meta name="apple-mobile-web-app-title" content="PRABHU BUS">
 
     <title>Is PRABHU getting late 🚌?</title>
-
-    <link rel="manifest" href="manifest.json">
 
     <style>
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
         }
 
         body {
+            min-height: 100vh;
+            min-height: 100dvh;
+
             font-family:
                 -apple-system,
                 BlinkMacSystemFont,
@@ -43,4 +37,276 @@
                 sans-serif;
 
             background:
-               
+                linear-gradient(
+                    135deg,
+                    #0d0d20,
+                    #191637,
+                    #241448
+                );
+
+            color: white;
+        }
+
+        /* HEADER */
+
+        header {
+            position: sticky;
+            top: 0;
+
+            width: 100%;
+
+            padding:
+                calc(env(safe-area-inset-top) + 18px)
+                20px
+                18px;
+
+            text-align: center;
+
+            background: rgba(13, 13, 32, 0.88);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.10);
+
+            z-index: 10;
+        }
+
+        header h1 {
+            font-size: 24px;
+
+            font-weight: 800;
+
+            letter-spacing: -0.5px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #c8c3ff,
+                    #ffffff
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        /* MAIN */
+
+        main {
+            min-height: calc(100vh - 80px);
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 40px 25px;
+
+            text-align: center;
+        }
+
+        .bus-icon {
+            width: 100px;
+            height: 100px;
+
+            border-radius: 30px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 52px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid rgba(255,255,255,0.15);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.3);
+
+            margin-bottom: 30px;
+        }
+
+        .message {
+            font-size: 18px;
+
+            color:
+                rgba(255,255,255,0.65);
+
+            line-height: 1.6;
+
+            max-width: 330px;
+
+            margin-bottom: 30px;
+        }
+
+        .open-button {
+
+            border: none;
+
+            width: 100%;
+
+            max-width: 330px;
+
+            padding: 18px 25px;
+
+            border-radius: 18px;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #635bff,
+                    #9b4dff
+                );
+
+            box-shadow:
+                0 15px 40px
+                rgba(99,91,255,0.35);
+
+            cursor: pointer;
+
+            -webkit-tap-highlight-color: transparent;
+
+            transition:
+                transform 0.15s ease;
+        }
+
+        .open-button:active {
+            transform: scale(0.96);
+        }
+
+        .loading {
+            margin-top: 20px;
+
+            font-size: 13px;
+
+            color:
+                rgba(255,255,255,0.4);
+        }
+
+        /* FOOTER */
+
+        footer {
+
+            position: fixed;
+
+            bottom:
+                calc(env(safe-area-inset-bottom) + 15px);
+
+            left: 0;
+
+            width: 100%;
+
+            text-align: center;
+
+            font-size: 11px;
+
+            letter-spacing: 1px;
+
+            color:
+                rgba(255,255,255,0.25);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>
+        Is PRABHU getting late 🚌?
+    </h1>
+
+</header>
+
+
+<main>
+
+    <div class="bus-icon">
+        🚌
+    </div>
+
+    <p class="message">
+        Checking the live Carris bus schedule...
+    </p>
+
+    <button
+        class="open-button"
+        onclick="openCarris()">
+
+        🚌 View Live Bus Schedule
+
+    </button>
+
+    <div
+        class="loading"
+        id="loading">
+
+        Opening Carris...
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    PRABHU • CARRIS LIVE
+
+</footer>
+
+
+<script>
+
+    const CARRIS_URL =
+        "https://paragem.alx.carris.pt/busstop/12111";
+
+
+    function openCarris() {
+
+        window.location.assign(CARRIS_URL);
+
+    }
+
+
+    /*
+     * Automatically open the Carris page.
+     *
+     * We wait 1 second so the header is visible
+     * before Safari navigates away.
+     */
+
+    window.addEventListener("load", function() {
+
+        setTimeout(function() {
+
+            document.getElementById("loading").textContent =
+                "Opening live schedule...";
+
+            openCarris();
+
+        }, 1000);
+
+    });
+
+</script>
+
+</body>
+</html>
