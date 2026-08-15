@@ -1,52 +1,54 @@
-const CACHE_NAME = "prabhu-bus-v1";
+// ==========================================
+// PRABHU BUS APP
+// ==========================================
 
-const APP_FILES = [
-    "./",
-    "./index.html",
-    "./manifest.json"
-];
-
-
-self.addEventListener("install", event => {
-
-    event.waitUntil(
-
-        caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(APP_FILES))
-
-    );
-
-});
+// Carris live bus-stop URL
+const CARRIS_URL =
+    "https://paragem.alx.carris.pt/busstop/12111";
 
 
-self.addEventListener("activate", event => {
+// ==========================================
+// OPEN CARRIS
+// ==========================================
 
-    event.waitUntil(
+function openCarris() {
 
-        caches.keys().then(keys => {
+    // Open the Carris page only when
+    // the user presses the button.
 
-            return Promise.all(
+    window.location.href = CARRIS_URL;
+}
 
-                keys
-                    .filter(key => key !== CACHE_NAME)
-                    .map(key => caches.delete(key))
 
-            );
+// ==========================================
+// APP STARTUP
+// ==========================================
 
-        })
+document.addEventListener("DOMContentLoaded", function () {
 
-    );
+    console.log("PRABHU BUS app loaded.");
 
 });
 
 
-self.addEventListener("fetch", event => {
+// ==========================================
+// BUTTON EFFECT
+// ==========================================
 
-    event.respondWith(
+const button = document.querySelector(".open-button");
 
-        fetch(event.request)
-            .catch(() => caches.match(event.request))
+if (button) {
 
-    );
+    button.addEventListener("touchstart", function () {
 
-});
+        button.style.transform = "scale(0.96)";
+
+    });
+
+    button.addEventListener("touchend", function () {
+
+        button.style.transform = "scale(1)";
+
+    });
+
+}
